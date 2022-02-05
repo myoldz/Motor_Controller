@@ -5,12 +5,19 @@
 
 const int i2c_addr = 0x27;    //LCD I2C address
 
+// Constants
 #define POT_PIN A3
+#define PWM_PIN 3
+
+//#define OPT_SENSOR_A 7
+//#define OPT_SENSOR_B 8
 
 // Global variables
 long potValNew = 0.0;
 long potValOld = 0.0;
-
+int pwmVal = 0;
+//int optical_a = 0;
+//int optical_b = 0;
 
 // Initialize stuff
 LiquidCrystal_I2C lcd(i2c_addr, 16, 2);
@@ -30,7 +37,20 @@ void loop() {
     lcd.print("Pot vlaue > ");
     lcd.print(potValNew);
    }
+  
 
+  /*
+  optical_a = digitalRead(OPT_SENSOR_A);
+  optical_b = digitalRead(OPT_SENSOR_B);
+  Serial.print("Sensor A = ");
+  Serial.print(optical_a);
+  Serial.print("   | Sensor B = ");
+  Serial.println(optical_b);
+  */
+  pwmVal = map(potValNew, 0, 1023, 0, 255);
+  Serial.print("PWM Value = ");
+  Serial.println(pwmVal);
+  analogWrite(PWM_PIN, pwmVal);
   delay(1000);
   
 }
